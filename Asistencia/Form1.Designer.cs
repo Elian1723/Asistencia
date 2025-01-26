@@ -43,6 +43,7 @@
             this.dataGridViewAlumnos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewAlumnos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewAlumnos.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewAlumnos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewAlumnos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -51,6 +52,9 @@
             this.dataGridViewAlumnos.Name = "dataGridViewAlumnos";
             this.dataGridViewAlumnos.Size = new System.Drawing.Size(743, 377);
             this.dataGridViewAlumnos.TabIndex = 2;
+            this.dataGridViewAlumnos.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dataGridViewAlumnos_CellBeginEdit);
+            this.dataGridViewAlumnos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAlumnos_CellDoubleClick);
+            this.dataGridViewAlumnos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAlumnos_CellEndEdit);
             // 
             // label1
             // 
@@ -71,6 +75,7 @@
             this.textBoxNombre.Name = "textBoxNombre";
             this.textBoxNombre.Size = new System.Drawing.Size(431, 26);
             this.textBoxNombre.TabIndex = 0;
+            this.textBoxNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNombre_KeyPress);
             // 
             // buttonGenerar
             // 
@@ -83,6 +88,7 @@
             this.buttonGenerar.TabIndex = 1;
             this.buttonGenerar.Text = "Generar";
             this.buttonGenerar.UseVisualStyleBackColor = true;
+            this.buttonGenerar.Click += new System.EventHandler(this.buttonGenerar_Click);
             // 
             // Form1
             // 

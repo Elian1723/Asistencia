@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.buttonGenerar = new System.Windows.Forms.Button();
+            this.buttonAgregar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAlumnos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -73,7 +74,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNombre.Location = new System.Drawing.Point(184, 18);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(431, 26);
+            this.textBoxNombre.Size = new System.Drawing.Size(322, 26);
             this.textBoxNombre.TabIndex = 0;
             this.textBoxNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNombre_KeyPress);
             // 
@@ -90,11 +91,25 @@
             this.buttonGenerar.UseVisualStyleBackColor = true;
             this.buttonGenerar.Click += new System.EventHandler(this.buttonGenerar_Click);
             // 
+            // buttonAgregar
+            // 
+            this.buttonAgregar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonAgregar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonAgregar.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonAgregar.Location = new System.Drawing.Point(512, 12);
+            this.buttonAgregar.Name = "buttonAgregar";
+            this.buttonAgregar.Size = new System.Drawing.Size(119, 37);
+            this.buttonAgregar.TabIndex = 3;
+            this.buttonAgregar.Text = "Agregar";
+            this.buttonAgregar.UseVisualStyleBackColor = true;
+            this.buttonAgregar.Click += new System.EventHandler(this.buttonAgregar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 446);
+            this.Controls.Add(this.buttonAgregar);
             this.Controls.Add(this.buttonGenerar);
             this.Controls.Add(this.textBoxNombre);
             this.Controls.Add(this.label1);
@@ -119,6 +134,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxNombre;
         private System.Windows.Forms.Button buttonGenerar;
+        private System.Windows.Forms.Button buttonAgregar;
     }
 }
 

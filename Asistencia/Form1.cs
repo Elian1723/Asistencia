@@ -15,7 +15,7 @@ namespace Asistencia
 {
     public partial class Form1 : Form
     {
-        private string valorCeldaTmp;
+        private string _valorCeldaTmp;
 
         public Form1()
         {
@@ -24,9 +24,9 @@ namespace Asistencia
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            bool existe = BaseLocal.Comprobar();
+            bool existeBaseLocal = BaseLocal.Comprobar();
 
-            if (!existe)
+            if (!existeBaseLocal)
             {
                 MessageBox.Show("No se pudo comprobar la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
@@ -48,30 +48,43 @@ namespace Asistencia
             }
         }
 
+        private void AgregarAlumno()
+        {
+            using (var connection = new SQLiteConnection(BaseLocal.Cadena))
+            {
+                connection.Open();
+
+                string query = "INSERT INTO Alumno (Nombre) VALUES (@Nombre);";
+                connection.Execute(query, new { Nombre = textBoxNombre.Text });
+
+                CargarAlumnos();
+
+                textBoxNombre.Clear();
+            }
+        }
+
+        private void buttonAgregar_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(textBoxNombre.Text))
+            {
+                AgregarAlumno();
+            }
+        }
+
         private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == Convert.ToChar(Keys.Enter))
             {
                 if (!string.IsNullOrEmpty(textBoxNombre.Text))
                 {
-                    using (var connection = new SQLiteConnection(BaseLocal.Cadena))
-                    {
-                        connection.Open();
-
-                        string query = "INSERT INTO Alumno (Nombre) VALUES (@Nombre);";
-                        connection.Execute(query, new { Nombre = textBoxNombre.Text });
-
-                        CargarAlumnos();
-
-                        textBoxNombre.Clear();
-                    }
+                    AgregarAlumno();
                 }
             }
         }
 
         private void dataGridViewAlumnos_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            valorCeldaTmp = dataGridViewAlumnos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            _valorCeldaTmp = dataGridViewAlumnos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
         }
 
         private void dataGridViewAlumnos_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -90,10 +103,10 @@ namespace Asistencia
             }
             else
             {
-                dataGridViewAlumnos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = valorCeldaTmp;
+                dataGridViewAlumnos.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = _valorCeldaTmp;
             }
 
-            valorCeldaTmp = string.Empty;
+            _valorCeldaTmp = string.Empty;
         }
 
         private void dataGridViewAlumnos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)

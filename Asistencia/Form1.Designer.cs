@@ -34,6 +34,7 @@
             this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.buttonGenerar = new System.Windows.Forms.Button();
             this.buttonAgregar = new System.Windows.Forms.Button();
+            this.saveFileDialogExcel = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAlumnos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -135,6 +136,7 @@
         private System.Windows.Forms.TextBox textBoxNombre;
         private System.Windows.Forms.Button buttonGenerar;
         private System.Windows.Forms.Button buttonAgregar;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogExcel;
     }
 }
 

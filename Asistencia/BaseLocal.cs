@@ -9,7 +9,7 @@ namespace Asistencia
 {
     public static class BaseLocal
     {
-        public static string Cadena { get; } = $@"Data Source=C:\Asistencia\asistencia.sqlite;Version=3;";
+        public static string Cadena { get; } = @"Data Source=C:\Asistencia\asistencia.sqlite;Version=3;";
 
         public static bool Comprobar()
         {

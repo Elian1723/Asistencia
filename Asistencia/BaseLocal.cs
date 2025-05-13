@@ -31,7 +31,7 @@ namespace Asistencia
 
                     string query = @"
                             CREATE TABLE IF NOT EXISTS Alumno(
-	                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+	                            Id INTEGER PRIMARY KEY,
 	                            Nombre TEXT NOT NULL
                             );";
 

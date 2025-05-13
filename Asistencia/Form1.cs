@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 using Microsoft.ReportingServices.Diagnostics.Internal;
+using System.ComponentModel;
 
 namespace Asistencia
 {
@@ -39,44 +40,103 @@ namespace Asistencia
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Alumno;";
+                BindingList<Alumno> alumnos = new BindingList<Alumno>(connection.Query<Alumno>("SELECT * FROM Alumno;").ToList());
 
-                dataGridViewAlumnos.DataSource = connection.Query<Alumno>(query).ToList();
-                dataGridViewAlumnos.Columns[0].Visible = false;
+                dataGridViewAlumnos.DataSource = alumnos;
+                dataGridViewAlumnos.Columns[0].ReadOnly = true;
+                dataGridViewAlumnos.Columns[0].Width = 55;
             }
         }
 
-        private void AgregarAlumno()
+        private void AgregarAlumno(string nombre)
         {
             using (var connection = new SQLiteConnection(BaseLocal.Cadena))
             {
                 connection.Open();
 
-                string query = "INSERT INTO Alumno (Nombre) VALUES (@Nombre);";
-                connection.Execute(query, new { Nombre = textBoxNombre.Text });
+                int maxId = connection.Query<int>("SELECT IFNULL(MAX(Id), 0) Id FROM Alumno;").First();
+
+                connection.Execute("INSERT INTO Alumno (Id, Nombre) VALUES (@Id, @Nombre);", new { Id = maxId + 1, Nombre = nombre });
 
                 CargarAlumnos();
 
                 textBoxNombre.Clear();
+                textBoxId.Clear();
+
+                textBoxId.Focus();
             }
         }
 
+        private bool ValidarId(int id)
+        {
+            using (var connection = new SQLiteConnection(BaseLocal.Cadena))
+            {
+                connection.Open();
+
+                Alumno alumnoEncontrado = connection.Query<Alumno>("SELECT * FROM Alumno WHERE Id = @Id LIMIT 1;", new { Id = id }).FirstOrDefault();
+
+                return alumnoEncontrado == null;
+            }
+        }
+
+        private void AgregarAlumno(int id, string nombre)
+        {
+            using (var connection = new SQLiteConnection(BaseLocal.Cadena))
+            {
+                connection.Open();
+
+                connection.Execute("INSERT INTO Alumno (Id, Nombre) VALUES (@Id, @Nombre);", new { Id = id, Nombre = nombre });
+
+                CargarAlumnos();
+
+                textBoxNombre.Clear();
+                textBoxId.Clear();
+
+                textBoxId.Focus();
+            }
+        }
+
+
         private void buttonAgregar_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxNombre.Text))
+            if (!string.IsNullOrEmpty(textBoxId.Text.Trim()) && !string.IsNullOrEmpty(textBoxNombre.Text.Trim()))
             {
-                AgregarAlumno();
+                if (int.TryParse(textBoxId.Text, out int id))
+                {
+                    if (ValidarId(id))
+                    {
+                        AgregarAlumno(id, textBoxNombre.Text.Trim());
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Ya existe un alumno con el Id {id}", "Alumno existente", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("El Id debe ser un número entero", "Formato incorrecto", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
+            else if (!string.IsNullOrEmpty(textBoxNombre.Text.Trim()))
+            {
+                AgregarAlumno(textBoxNombre.Text.Trim());
+            }
+            else
+            {
+                MessageBox.Show("Debe proporcionar como mínimo el nombre del alumno para poder agregarlo", "Campos vacíos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void textBoxId_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == Convert.ToChar(Keys.Enter)) textBoxNombre.Focus();
         }
 
         private void textBoxNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == Convert.ToChar(Keys.Enter))
             {
-                if (!string.IsNullOrEmpty(textBoxNombre.Text))
-                {
-                    AgregarAlumno();
-                }
+                buttonAgregar.PerformClick();
             }
         }
 
@@ -130,7 +190,24 @@ namespace Asistencia
             }
         }
 
-        static List<DateTime> ObtenerDiasHabiles()
+        private void buttonEliminarTodo_Click(object sender, EventArgs e)
+        {
+            var confirmacion = MessageBox.Show("¿Está seguro de eliminar todos los alumnos?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (confirmacion == DialogResult.Yes)
+            {
+                using (var connection = new SQLiteConnection(BaseLocal.Cadena))
+                {
+                    connection.Open();
+
+                    connection.Execute("DELETE FROM Alumno;");
+                }
+
+                MessageBox.Show("Todos los alumnos han sido eliminados correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarAlumnos();
+            }
+        }
+        private List<DateTime> ObtenerDiasHabiles()
         {
             List<DateTime> diasHabiles = new List<DateTime>();
 
@@ -157,6 +234,7 @@ namespace Asistencia
                 saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
                 saveFileDialog.FilterIndex = 1;
                 saveFileDialog.RestoreDirectory = true;
+                saveFileDialog.FileName = "asistencia";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -187,6 +265,8 @@ namespace Asistencia
             var workbooks = app.Workbooks;
             var workbook = workbooks.Add();
             var worksheet = workbook.Sheets[1] as Excel.Worksheet;
+            worksheet.PageSetup.PaperSize = Excel.XlPaperSize.xlPaperLegal;
+            worksheet.PageSetup.Orientation = Excel.XlPageOrientation.xlLandscape;
 
             CreateCell(worksheet.Range["A1", "B1"], DateTime.Now.Year)
                 .SetFontBold(true)
@@ -247,7 +327,7 @@ namespace Asistencia
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Alumno;";
+                string query = "SELECT * FROM Alumno ORDER BY Id ASC;";
 
                 alumnos = connection.Query<Alumno>(query).ToList();
             }
@@ -285,7 +365,9 @@ namespace Asistencia
             {
                 GenerarExcel(ubicacion);
 
-                MessageBox.Show("Archivo generado correctamente", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Archivo generado correctamente" + Environment.NewLine + $"Ubicación: {ubicacion}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                this.Activate();
             }
         }
 

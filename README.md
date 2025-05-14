@@ -2,8 +2,10 @@
 
 Aplicación de escritorio Windows para generar hojas de asistencia mensual en Excel de manera automatizada.
 
-![Main Window](screenshots/main_window.png)
-![Excel Format](screenshots/excel_format.png)
+<div style="display: flex; justify-content: space-around;">
+    <img src="screenshots/main_window.png" alt="Main Window" style="width: 45%;"/>
+    <img src="screenshots/excel_format.png" alt="Excel Format" style="width: 45%;"/>
+</div>
 
 
 El proyecto al ejecutarse la primera vez, creará un carpeta en la ruta disco **C:\Asistencia** y dentro de esta una base de datos llamada **asistencia.sqlite** usada para persistir los datos ingresados.

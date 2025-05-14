@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
-using Microsoft.ReportingServices.Diagnostics.Internal;
 using System.ComponentModel;
 
 namespace Asistencia

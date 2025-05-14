@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Asistencia
@@ -37,7 +32,7 @@ namespace Asistencia
         {
             var color = ColorTranslator.FromHtml(colorHex);
             int oleColor = color.R | (color.G << 8) | (color.B << 16);
-            
+
             range.Interior.Color = oleColor;
             return range;
         }

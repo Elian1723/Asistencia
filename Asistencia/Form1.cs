@@ -232,7 +232,7 @@ namespace Asistencia
                 saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
                 saveFileDialog.FilterIndex = 1;
                 saveFileDialog.RestoreDirectory = true;
-                saveFileDialog.FileName = "asistencia";
+                saveFileDialog.FileName = $"asistencia_{DateTime.Now:MMMM}{DateTime.Now.Year}";
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {

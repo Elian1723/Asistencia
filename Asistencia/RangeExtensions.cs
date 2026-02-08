@@ -28,6 +28,19 @@ namespace Asistencia
             return range;
         }
 
+        public static Excel.Range SetVerticalAlignment(this Excel.Range range, Excel.XlVAlign align)
+        {
+            range.VerticalAlignment = align;
+            return range;
+        }
+
+        // method to set width of a column
+        public static Excel.Range SetColumnWidth(this Excel.Range range, double width)
+        {
+            range.ColumnWidth = width;
+            return range;
+        }
+
         public static Excel.Range SetBackgroundColor(this Excel.Range range, string colorHex)
         {
             var color = ColorTranslator.FromHtml(colorHex);

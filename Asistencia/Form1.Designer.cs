@@ -41,6 +41,8 @@
             this.textBoxId = new System.Windows.Forms.TextBox();
             this.buttonEliminarTodo = new System.Windows.Forms.Button();
             this.toolTipInfo = new System.Windows.Forms.ToolTip(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxMeses = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAlumnos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +84,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNombre.Location = new System.Drawing.Point(110, 105);
             this.textBoxNombre.Name = "textBoxNombre";
-            this.textBoxNombre.Size = new System.Drawing.Size(497, 26);
+            this.textBoxNombre.Size = new System.Drawing.Size(508, 26);
             this.textBoxNombre.TabIndex = 1;
             this.textBoxNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxNombre_KeyPress);
             // 
@@ -169,11 +171,34 @@
             this.toolTipInfo.ReshowDelay = 100;
             this.toolTipInfo.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(493, 40);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(46, 19);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Mes:";
+            this.toolTipInfo.SetToolTip(this.label4, "Nombre completo del alumno");
+            // 
+            // comboBoxMeses
+            // 
+            this.comboBoxMeses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMeses.FormattingEnabled = true;
+            this.comboBoxMeses.Location = new System.Drawing.Point(497, 62);
+            this.comboBoxMeses.Name = "comboBoxMeses";
+            this.comboBoxMeses.Size = new System.Drawing.Size(121, 26);
+            this.comboBoxMeses.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(769, 446);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.comboBoxMeses);
             this.Controls.Add(this.buttonEliminarTodo);
             this.Controls.Add(this.textBoxId);
             this.Controls.Add(this.label3);
@@ -210,6 +235,8 @@
         private System.Windows.Forms.TextBox textBoxId;
         private System.Windows.Forms.Button buttonEliminarTodo;
         private System.Windows.Forms.ToolTip toolTipInfo;
+        private System.Windows.Forms.ComboBox comboBoxMeses;
+        private System.Windows.Forms.Label label4;
     }
 }
 
